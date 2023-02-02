@@ -47,8 +47,11 @@ try
     app.MapPost("/player", 
     [AllowAnonymous] async(IPlayerBusiness<int> bs, clsNewPlayer newPlayer) => Results.Ok(await bs.addPlayer(newPlayer)));
 
-    // app.MapPost("/game",
-    // [AllowAnonymous] async(IGameBusiness<int> bs, clsNewGame newGame) => Results.Ok(await bs.addGame(newGame)));
+    // app.MapPost("/getplayers", 
+    // [AllowAnonymous] async(IPlayerBusiness<int> bs, clsNewPlayer newPlayer) => Results.Ok(bs.getPlayers()));
+
+    app.MapPost("/game",
+    [AllowAnonymous] async(IGameBusiness<int> bs, clsNewGame newGame) => Results.Ok(await bs.addGame(newGame)));
 
     app.Run();
 }
