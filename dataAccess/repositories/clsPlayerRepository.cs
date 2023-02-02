@@ -16,13 +16,6 @@ public sealed class clsPlayerRepository<TI, TC> : clsDataAccess<clsPlayerEntityM
     {
     }
 
-    // public async Task<IEnumerable<clsNewPlayer>> getPlayers()
-    // {
-    //     List<clsNewPlayer> players = new List<clsNewPlayer>();
-    //     var p = new DynamicParameters();
-    //     return players;
-    // }
-
     public async Task<TI> addPlayer(clsNewPlayer player)
     {
         var p = new DynamicParameters();
@@ -44,6 +37,12 @@ public sealed class clsPlayerRepository<TI, TC> : clsDataAccess<clsPlayerEntityM
     public Task deletePlayer(TI id)
     {
         throw new NotImplementedException();
+    }
+
+    public async Task<IEnumerable<clsPlayerEntityModel<TI, TC>>> getPlayers()
+    {
+        var p = new DynamicParameters();
+        return await getALL(p).ConfigureAwait(false);
     }
 
     public Task<IEnumerable<clsPlayerEntityModel<TI, TC>>> getPlayersByGame(TI gameId)

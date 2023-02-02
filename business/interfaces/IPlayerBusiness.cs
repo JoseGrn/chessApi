@@ -6,5 +6,5 @@ public interface IPlayerBusiness<TI>
     where TI : struct, IEquatable<TI>
 {
     Task<clsPlayer<TI>> addPlayer(clsNewPlayer newPlayer);
-    //Task<clsPlayer<TI>> getPlayer();
+    Task<List<clsPlayer<TI>>> getPlayers();
 }
