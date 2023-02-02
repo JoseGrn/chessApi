@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "UM+1Kk5T6gs9sOJBNV2EHt588vH+GH5xwxSybS0pJXgsTj1d4fuUk/APYB9FSVD7vealgfD1Nh7ku8v+94kscg==",
+  "dgSpecHash": "9RJvlHAX9kLXs3uRZQKQaxYBOjoG0eYqOR+IlFiwATVGO5ouWig1mL0shdINMCpqHD33LFh1AoHz7kteaLAWKw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\josed\\Documents\\Apis\\chessAPI-master\\chessAPI.csproj",
+  "projectFilePath": "C:\\Users\\josed\\Documents\\Apis\\chessAPI\\chessAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\josed\\.nuget\\packages\\autofac\\6.5.0\\autofac.6.5.0.nupkg.sha512",
     "C:\\Users\\josed\\.nuget\\packages\\autofac.extensions.dependencyinjection\\8.0.0\\autofac.extensions.dependencyinjection.8.0.0.nupkg.sha512",

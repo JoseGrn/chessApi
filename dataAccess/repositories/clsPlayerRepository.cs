@@ -3,7 +3,6 @@ using chessAPI.dataAccess.interfaces;
 using chessAPI.dataAccess.models;
 using chessAPI.models.player;
 using Dapper;
-using Microsoft.AspNetCore.Mvc;
 
 namespace chessAPI.dataAccess.repositores;
 

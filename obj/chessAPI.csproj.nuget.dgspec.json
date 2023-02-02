@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\josed\\Documents\\Apis\\chessAPI-master\\chessAPI.csproj": {}
+    "C:\\Users\\josed\\Documents\\Apis\\chessAPI\\chessAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\josed\\Documents\\Apis\\chessAPI-master\\chessAPI.csproj": {
+    "C:\\Users\\josed\\Documents\\Apis\\chessAPI\\chessAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\josed\\Documents\\Apis\\chessAPI-master\\chessAPI.csproj",
+        "projectUniqueName": "C:\\Users\\josed\\Documents\\Apis\\chessAPI\\chessAPI.csproj",
         "projectName": "chessAPI",
-        "projectPath": "C:\\Users\\josed\\Documents\\Apis\\chessAPI-master\\chessAPI.csproj",
+        "projectPath": "C:\\Users\\josed\\Documents\\Apis\\chessAPI\\chessAPI.csproj",
         "packagesPath": "C:\\Users\\josed\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\josed\\Documents\\Apis\\chessAPI-master\\obj\\",
+        "outputPath": "C:\\Users\\josed\\Documents\\Apis\\chessAPI\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
