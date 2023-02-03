@@ -31,4 +31,10 @@ public sealed class clsGameBusiness<TI, TC> : IGameBusiness<TI>
         }
         return games;
     }
+
+    public async Task<clsGame<TI>> updateGame(clsUpdateGame updateGame)
+    {
+        var x = await GameRepository.updateGames(updateGame.id, updateGame.started, updateGame.whites, updateGame.blacks, updateGame.turn, updateGame.winner).ConfigureAwait(false);
+        return new clsGame<TI>(x, updateGame.started, updateGame.whites, updateGame.blacks, updateGame.turn, updateGame.winner);
+    }
 }

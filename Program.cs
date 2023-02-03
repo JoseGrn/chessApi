@@ -59,6 +59,9 @@ try
     app.MapGet("/getgames",
     [AllowAnonymous] async(IGameBusiness<int> bs) => Results.Ok(await bs.getGames()));
 
+    app.MapPut("/updategame",
+    [AllowAnonymous] async(IGameBusiness<int> bs, clsUpdateGame updateGame) => Results.Ok(await bs.updateGame(updateGame)));
+
     app.Run();
 }
 catch (Exception ex)

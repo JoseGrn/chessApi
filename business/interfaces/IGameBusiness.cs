@@ -7,4 +7,5 @@ public interface IGameBusiness<TI>
 {
     Task<clsGame<TI>> addGame(clsNewGame newGame);
     Task<List<clsGame<TI>>> getGames();
+    Task<clsGame<TI>> updateGame(clsUpdateGame updateGame);
 }

@@ -85,4 +85,16 @@ public sealed class clsGameRepository<TI, TC> : clsDataAccess<clsGameEntityModel
         p.Add("ID", key);
         return p;
     }
+
+    public async Task<TI> updateGames(int id, DateTime started, int whites, int blacks, bool turn, int winner)
+    {
+        var p = new DynamicParameters();
+        p.Add("ID", id);
+        p.Add("STARTED", started);
+        p.Add("WHITES", whites);
+        p.Add("BLACKS", blacks);
+        p.Add("TURN", turn);
+        p.Add("WINNER", winner);
+        return await setRow<TI>(p).ConfigureAwait(false); 
+    }
 }
