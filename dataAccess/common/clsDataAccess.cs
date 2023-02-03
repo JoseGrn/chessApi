@@ -207,6 +207,33 @@ public abstract class clsDataAccess<TEntity, TKey, TC>
             await set(p, RowVersion, queries.UpdateWholeEntity).ConfigureAwait(false);
         }
 
+        protected async Task<TResult> setRow<TResult>(DynamicParameters param)
+        {
+            try
+            {
+                IEnumerable<TResult> result = await rkm.trn.Connection.QueryAsync<TResult>(sql: queries.UpdateWholeEntity,
+                    param: param,
+                    transaction: rkm.trn,
+                    commandType: CommandType.Text).ConfigureAwait(false);
+                return result.FirstOrDefault();
+            }
+            catch (SqlException ex)
+            {
+                logger.LogError("Error al hacer SQL-UPDATE<TResult> {" + queries.NewDataEntity + "} Error:" + ex.ToString());
+                throw;
+            }
+            catch (TimeoutException ex)
+            {
+                logger.LogError("Error al hacer SQL-UPDATE<TResult> (TimeOut) {" + queries.NewDataEntity + "} Error:" + ex.ToString());
+                throw;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError("Error general al hacer SQL-UPDATE<TResult> {" + queries.NewDataEntity + "} Error:" + ex.ToString());
+                throw;
+            }
+        }
+
         protected async Task<TResult> set<TResult>(DynamicParameters param, TC? rowVersion, string query, Action<TResult> setFields)
         {
             try
