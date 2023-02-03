@@ -32,12 +32,4 @@ public sealed class clsPlayerBusiness<TI, TC> : IPlayerBusiness<TI>
         }
         return players; 
     }
-
-    // public List<clsPlayer<TI>> getPlayers()
-    // {
-    //     //var x = playerRepository.getPlayers().ConfigureAwait(false);
-    //     List<clsPlayer<TI>> players = new List<clsPlayer<TI>>();
-    //     //players.Add(new clsPlayer<TI>(x,"mail"));
-    //     return new List<clsPlayer<TI>>();
-    // }
 }

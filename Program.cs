@@ -50,8 +50,14 @@ try
     app.MapGet("/getplayers",
     [AllowAnonymous] async(IPlayerBusiness<int> bs) => Results.Ok(await bs.getPlayers()));
 
+    app.MapPost("/updateplayer",
+    [AllowAnonymous] async(IGameBusiness<int> bs, clsNewGame newGame) => Results.Ok(await bs.addGame(newGame)));
+
     app.MapPost("/game",
     [AllowAnonymous] async(IGameBusiness<int> bs, clsNewGame newGame) => Results.Ok(await bs.addGame(newGame)));
+
+    app.MapGet("/getgames",
+    [AllowAnonymous] async(IGameBusiness<int> bs) => Results.Ok(await bs.getGames()));
 
     app.Run();
 }
