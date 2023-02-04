@@ -4,6 +4,7 @@ using chessAPI;
 using chessAPI.business.interfaces;
 using chessAPI.models.game;
 using chessAPI.models.player;
+using chessAPI.models.team;
 using Microsoft.AspNetCore.Authorization;
 using Serilog;
 using Serilog.Events;
@@ -44,6 +45,8 @@ try
         return "hola mundo";
     });
 
+    #region player
+
     app.MapPost("/player", 
     [AllowAnonymous] async(IPlayerBusiness<int> bs, clsNewPlayer newPlayer) => Results.Ok(await bs.addPlayer(newPlayer)));
 
@@ -53,6 +56,10 @@ try
     app.MapPut("/updateplayer",
     [AllowAnonymous] async(IPlayerBusiness<int> bs, clsUpdatePlayer updatePlayer) => Results.Ok(await bs.updatePlayer(updatePlayer)));
 
+    #endregion
+
+    #region game
+
     app.MapPost("/game",
     [AllowAnonymous] async(IGameBusiness<int> bs, clsNewGame newGame) => Results.Ok(await bs.addGame(newGame)));
 
@@ -61,6 +68,21 @@ try
 
     app.MapPut("/updategame",
     [AllowAnonymous] async(IGameBusiness<int> bs, clsUpdateGame updateGame) => Results.Ok(await bs.updateGame(updateGame)));
+
+    #endregion
+
+    #region Team
+
+    app.MapPost("/team",
+    [AllowAnonymous] async(ITeamBusiness<int> bs, clsNewTeam newTeam) => Results.Ok(await bs.addTeam(newTeam)));
+
+    app.MapGet("/getteams",
+    [AllowAnonymous] async(ITeamBusiness<int> bs) => Results.Ok(await bs.getTeams()));
+
+    app.MapPut("/updateteam",
+    [AllowAnonymous] async(ITeamBusiness<int> bs, clsUpdateTeam updateTeam) => Results.Ok(await bs.updateTeam(updateTeam)));
+
+    #endregion
 
     app.Run();
 }
