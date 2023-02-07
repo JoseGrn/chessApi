@@ -47,6 +47,10 @@ where TI : struct, IEquatable<TI>
         builder.Register(c => new qTeam())
           .SingleInstance()
           .As<IQTeam>();
+
+        builder.Register(c => new qTeamPlayer())
+          .SingleInstance()
+          .As<IQTeamPlayer>();
         #endregion
 
         #region "Repositories"
@@ -67,6 +71,12 @@ where TI : struct, IEquatable<TI>
                                                               c.Resolve<ILogger<clsTeamRepository<TI, TC>>>()))
                .InstancePerDependency()
                .As<ITeamRepository<TI, TC>>();
+
+        builder.Register(c => new clsTeamPlayerRepository<TI, TC>(c.Resolve<IRelationalContext<TC>>(),
+                                                              c.Resolve<IQTeamPlayer>(),
+                                                              c.Resolve<ILogger<clsTeamPlayerRepository<TI, TC>>>()))
+               .InstancePerDependency()
+               .As<ITeamPlayerRepository<TI, TC>>();
         #endregion
 
         #region "Kaizen Entity Factories"
@@ -87,6 +97,12 @@ where TI : struct, IEquatable<TI>
             IComponentContext cc = context.Resolve<IComponentContext>();
             return cc.Resolve<ITeamRepository<TI, TC>>;
         });
+
+        builder.Register<Func<ITeamPlayerRepository<TI, TC>>>(delegate (IComponentContext context)
+        {
+            IComponentContext cc = context.Resolve<IComponentContext>();
+            return cc.Resolve<ITeamPlayerRepository<TI, TC>>;
+        });
         #endregion
 
         #region "Business classes"
@@ -101,6 +117,11 @@ where TI : struct, IEquatable<TI>
         builder.Register(c => new clsTeamBusiness<TI, TC>(c.Resolve<ITeamRepository<TI, TC>>()))
                .InstancePerDependency()
                .As<ITeamBusiness<TI>>();
+
+        builder.Register(c => new clsTeamPlayerBusiness<TI, TC>(c.Resolve<ITeamPlayerRepository<TI, TC>>()))
+               .InstancePerDependency()
+               .As<ITeamPlayerBusiness<TI>>();
+
         #endregion
     }
 }

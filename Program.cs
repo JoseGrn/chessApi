@@ -5,6 +5,7 @@ using chessAPI.business.interfaces;
 using chessAPI.models.game;
 using chessAPI.models.player;
 using chessAPI.models.team;
+using chessAPI.models.teamplayer;
 using Microsoft.AspNetCore.Authorization;
 using Serilog;
 using Serilog.Events;
@@ -81,6 +82,19 @@ try
 
     app.MapPut("/updateteam",
     [AllowAnonymous] async(ITeamBusiness<int> bs, clsUpdateTeam updateTeam) => Results.Ok(await bs.updateTeam(updateTeam)));
+
+    #endregion
+
+    #region TeamPlayer
+
+    app.MapPost("/teamplayer", 
+    [AllowAnonymous] async(ITeamPlayerBusiness<int> bs, clsNewTeamPlayer newTeamPlayer) => Results.Ok(await bs.addTeamPlayer(newTeamPlayer)));
+
+    app.MapGet("/getteamplayers",
+    [AllowAnonymous] async(ITeamPlayerBusiness<int> bs) => Results.Ok(await bs.getTeamPlayers()));
+
+    app.MapPut("/updateteamplayers",
+    [AllowAnonymous] async(ITeamPlayerBusiness<int> bs, clsUpdateTeamPlayer updateTeamPlayer) => Results.Ok(await bs.updateTeamPlayer(updateTeamPlayer)));
 
     #endregion
 
