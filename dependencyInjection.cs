@@ -51,6 +51,10 @@ where TI : struct, IEquatable<TI>
         builder.Register(c => new qTeamPlayer())
           .SingleInstance()
           .As<IQTeamPlayer>();
+
+        builder.Register(c => new qPlayerPiece())
+          .SingleInstance()
+          .As<IQPlayerPiece>();
         #endregion
 
         #region "Repositories"
@@ -77,6 +81,12 @@ where TI : struct, IEquatable<TI>
                                                               c.Resolve<ILogger<clsTeamPlayerRepository<TI, TC>>>()))
                .InstancePerDependency()
                .As<ITeamPlayerRepository<TI, TC>>();
+
+        builder.Register(c => new clsPlayerPieceRepository<TI, TC>(c.Resolve<IRelationalContext<TC>>(),
+                                                              c.Resolve<IQPlayerPiece>(),
+                                                              c.Resolve<ILogger<clsPlayerPieceRepository<TI, TC>>>()))
+               .InstancePerDependency()
+               .As<IPlayerPieceRepository<TI, TC>>();
         #endregion
 
         #region "Kaizen Entity Factories"
@@ -103,6 +113,12 @@ where TI : struct, IEquatable<TI>
             IComponentContext cc = context.Resolve<IComponentContext>();
             return cc.Resolve<ITeamPlayerRepository<TI, TC>>;
         });
+
+        builder.Register<Func<IPlayerPieceRepository<TI, TC>>>(delegate (IComponentContext context)
+        {
+            IComponentContext cc = context.Resolve<IComponentContext>();
+            return cc.Resolve<IPlayerPieceRepository<TI, TC>>;
+        });
         #endregion
 
         #region "Business classes"
@@ -121,6 +137,10 @@ where TI : struct, IEquatable<TI>
         builder.Register(c => new clsTeamPlayerBusiness<TI, TC>(c.Resolve<ITeamPlayerRepository<TI, TC>>()))
                .InstancePerDependency()
                .As<ITeamPlayerBusiness<TI>>();
+
+        builder.Register(c => new clsPlayerPieceBusiness<TI, TC>(c.Resolve<IPlayerPieceRepository<TI, TC>>()))
+               .InstancePerDependency()
+               .As<IPlayerPieceBusiness<TI>>();
 
         #endregion
     }

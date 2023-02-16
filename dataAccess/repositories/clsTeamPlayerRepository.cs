@@ -16,13 +16,6 @@ public sealed class clsTeamPlayerRepository<TI, TC> : clsDataAccess<clsTeamPlaye
     {
     }
 
-    // public async Task<IEnumerable<clsNewTeamPlayer>> getTeamPlayers()
-    // {
-    //     List<clsNewTeamPlayer> TeamPlayers = new List<clsNewTeamPlayer>();
-    //     var p = new DynamicParameters();
-    //     return TeamPlayers;
-    // }
-
     public async Task<TI> addTeamPlayer(clsNewTeamPlayer teamPlayer)
     {
         var p = new DynamicParameters();

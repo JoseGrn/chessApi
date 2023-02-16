@@ -4,6 +4,7 @@ using chessAPI;
 using chessAPI.business.interfaces;
 using chessAPI.models.game;
 using chessAPI.models.player;
+using chessAPI.models.playerpiece;
 using chessAPI.models.team;
 using chessAPI.models.teamplayer;
 using Microsoft.AspNetCore.Authorization;
@@ -95,6 +96,19 @@ try
 
     app.MapPut("/updateteamplayers",
     [AllowAnonymous] async(ITeamPlayerBusiness<int> bs, clsUpdateTeamPlayer updateTeamPlayer) => Results.Ok(await bs.updateTeamPlayer(updateTeamPlayer)));
+
+    #endregion
+
+    #region PlayerPiece
+
+    app.MapPost("/playerpiece", 
+    [AllowAnonymous] async(IPlayerPieceBusiness<int> bs, clsNewPlayerPiece newPlayerPiece) => Results.Ok(await bs.addPlayerPiece(newPlayerPiece)));
+
+    app.MapGet("/getplayerpieces",
+    [AllowAnonymous] async(IPlayerPieceBusiness<int> bs) => Results.Ok(await bs.getPlayerPieces()));
+
+    app.MapPut("/updateplayerpiece",
+    [AllowAnonymous] async(IPlayerPieceBusiness<int> bs, clsUpdatePlayerPiece updatePlayerPiece) => Results.Ok(await bs.updatePlayerPiece(updatePlayerPiece)));
 
     #endregion
 
