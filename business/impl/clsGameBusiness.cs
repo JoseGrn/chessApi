@@ -1,40 +1,31 @@
-using chessAPI.business.interfaces;
 using chessAPI.dataAccess.repositores;
 using chessAPI.models.game;
+using chessAPI.business.interfaces;
 
 namespace chessAPI.business.impl;
 
-public sealed class clsGameBusiness<TI, TC> : IGameBusiness<TI> 
-    where TI : struct, IEquatable<TI>
-    where TC : struct
+public sealed class clsGameBusiness : IGameBusiness
 {
-    internal readonly IGameRepository<TI, TC> GameRepository;
+    internal readonly IGameRepository gameRepository;
 
-    public clsGameBusiness(IGameRepository<TI, TC> GameRepository)
+    public clsGameBusiness(IGameRepository gameRepository) => this.gameRepository = gameRepository;
+
+    public async Task startGame(clsNewGame newGame) => await gameRepository.addGame(newGame).ConfigureAwait(false);
+
+    public async Task<clsGame?> getGame(long id)
     {
-        this.GameRepository = GameRepository;
+        var x = await gameRepository.getGame(id).ConfigureAwait(false);
+        return x != null ? (clsGame)x : null;
     }
 
-    public async Task<clsGame<TI>> addGame(clsNewGame newGame)
+    public async Task<bool> swapTurn(long id)
     {
-        var x = await GameRepository.addGame(newGame).ConfigureAwait(false);
-        return new clsGame<TI>(x, newGame.started, newGame.whites, newGame.blacks, newGame.turn, newGame.winner);
-    }
-
-    public async Task<List<clsGame<TI>>> getGames()
-    {
-        List<clsGame<TI>> games = new List<clsGame<TI>>();
-        var x = await GameRepository.getGames().ConfigureAwait(false);
-        foreach(var value in x){
-            clsGame<TI> player = new clsGame<TI>(value.id,value.started,value.whites,value.blacks,value.turn,value.winner);
-            games.Add(player);
+        var x = await gameRepository.getGame(id).ConfigureAwait(false);
+        if (x != null)
+        {
+            await gameRepository.swapTurn(id).ConfigureAwait(false);
+            return true;
         }
-        return games;
-    }
-
-    public async Task<clsGame<TI>> updateGame(clsUpdateGame updateGame)
-    {
-        var x = await GameRepository.updateGames(updateGame.id, updateGame.started, updateGame.whites, updateGame.blacks, updateGame.turn, updateGame.winner).ConfigureAwait(false);
-        return new clsGame<TI>(x, updateGame.started, updateGame.whites, updateGame.blacks, updateGame.turn, updateGame.winner);
+        return false;
     }
 }

@@ -22,7 +22,7 @@ public sealed class qPlayer : IQPlayer
     private const string _update = @"
     UPDATE public.player
 	SET email=@EMAIL
-	WHERE id = @ID";
+	WHERE id=@ID";
 
     public string SQLGetAll => _selectAll;
 

@@ -4,9 +4,6 @@ using chessAPI;
 using chessAPI.business.interfaces;
 using chessAPI.models.game;
 using chessAPI.models.player;
-using chessAPI.models.playerpiece;
-using chessAPI.models.team;
-using chessAPI.models.teamplayer;
 using Microsoft.AspNetCore.Authorization;
 using Serilog;
 using Serilog.Events;
@@ -42,74 +39,36 @@ try
     var app = builder.Build();
     app.UseSerilogRequestLogging();
     app.UseMiddleware(typeof(chessAPI.customMiddleware<int>));
-    app.MapGet("/", () =>
+
+    #region "REST routes"
+    app.MapGet("/", () => Results.BadRequest());
+
+    #region "Player REST Commands"
+    app.MapGet("game/{id}", async (IGameBusiness bs, long id) =>
     {
-        return "hola mundo";
+        var x = await bs.getGame(id).ConfigureAwait(false);
+        return x != null ? Results.Ok(x) : Results.NotFound();
     });
 
-    #region player
-
-    app.MapPost("/player", 
-    [AllowAnonymous] async(IPlayerBusiness<int> bs, clsNewPlayer newPlayer) => Results.Ok(await bs.addPlayer(newPlayer)));
-
-    app.MapGet("/getplayers",
-    [AllowAnonymous] async(IPlayerBusiness<int> bs) => Results.Ok(await bs.getPlayers()));
-
-    app.MapPut("/updateplayer",
-    [AllowAnonymous] async(IPlayerBusiness<int> bs, clsUpdatePlayer updatePlayer) => Results.Ok(await bs.updatePlayer(updatePlayer)));
-
+    app.MapPost("player",
+    [AllowAnonymous] async (IPlayerBusiness<int> bs, clsNewPlayer newPlayer)
+        => Results.Ok(await bs.addPlayer(newPlayer).ConfigureAwait(false)));
     #endregion
 
-    #region game
-
-    app.MapPost("/game",
-    [AllowAnonymous] async(IGameBusiness<int> bs, clsNewGame newGame) => Results.Ok(await bs.addGame(newGame)));
-
-    app.MapGet("/getgames",
-    [AllowAnonymous] async(IGameBusiness<int> bs) => Results.Ok(await bs.getGames()));
-
-    app.MapPut("/updategame",
-    [AllowAnonymous] async(IGameBusiness<int> bs, clsUpdateGame updateGame) => Results.Ok(await bs.updateGame(updateGame)));
-
+    #region "Game REST Commands"
+    app.MapPost("game",
+    [AllowAnonymous] async (IGameBusiness bs, clsNewGame newGame) =>
+    {
+        await bs.startGame(newGame).ConfigureAwait(false);
+        return Results.Ok();
+    });
+    app.MapPut("/game/{id}/swapturn",
+    [AllowAnonymous] async (IGameBusiness bs, long id) =>
+    {
+        var didSwap = await bs.swapTurn(id).ConfigureAwait(false);
+        return didSwap ? Results.Ok() : Results.BadRequest();
+    });
     #endregion
-
-    #region Team
-
-    app.MapPost("/team",
-    [AllowAnonymous] async(ITeamBusiness<int> bs, clsNewTeam newTeam) => Results.Ok(await bs.addTeam(newTeam)));
-
-    app.MapGet("/getteams",
-    [AllowAnonymous] async(ITeamBusiness<int> bs) => Results.Ok(await bs.getTeams()));
-
-    app.MapPut("/updateteam",
-    [AllowAnonymous] async(ITeamBusiness<int> bs, clsUpdateTeam updateTeam) => Results.Ok(await bs.updateTeam(updateTeam)));
-
-    #endregion
-
-    #region TeamPlayer
-
-    app.MapPost("/teamplayer", 
-    [AllowAnonymous] async(ITeamPlayerBusiness<int> bs, clsNewTeamPlayer newTeamPlayer) => Results.Ok(await bs.addTeamPlayer(newTeamPlayer)));
-
-    app.MapGet("/getteamplayers",
-    [AllowAnonymous] async(ITeamPlayerBusiness<int> bs) => Results.Ok(await bs.getTeamPlayers()));
-
-    app.MapPut("/updateteamplayers",
-    [AllowAnonymous] async(ITeamPlayerBusiness<int> bs, clsUpdateTeamPlayer updateTeamPlayer) => Results.Ok(await bs.updateTeamPlayer(updateTeamPlayer)));
-
-    #endregion
-
-    #region PlayerPiece
-
-    app.MapPost("/playerpiece", 
-    [AllowAnonymous] async(IPlayerPieceBusiness<int> bs, clsNewPlayerPiece newPlayerPiece) => Results.Ok(await bs.addPlayerPiece(newPlayerPiece)));
-
-    app.MapGet("/getplayerpieces",
-    [AllowAnonymous] async(IPlayerPieceBusiness<int> bs) => Results.Ok(await bs.getPlayerPieces()));
-
-    app.MapPut("/updateplayerpiece",
-    [AllowAnonymous] async(IPlayerPieceBusiness<int> bs, clsUpdatePlayerPiece updatePlayerPiece) => Results.Ok(await bs.updatePlayerPiece(updatePlayerPiece)));
-
     #endregion
 
     app.Run();
